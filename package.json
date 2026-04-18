@@ -1,0 +1,30 @@
+{
+  "name": "propresenter-presentation-builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "pro-presenter-builder": "./dist/cli.js"
+  },
+  "scripts": {
+    "generate": "tsx src/cli.ts generate",
+    "inspect-template": "tsx src/cli.ts inspect-template",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "build": "tsup"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
