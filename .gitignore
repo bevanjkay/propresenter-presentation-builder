@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+*.log
+output.pro
+*.tmp.pro
+*.decode.txt

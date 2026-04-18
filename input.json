@@ -1,0 +1,44 @@
+[
+    {
+        "label": "Title",
+        "text": {
+            "label": "Title",
+            "text": "The Great Gatsby"
+        }
+    },
+    {
+        "label": "John 3:16",
+        "text": [
+            {
+                "label": "Reference",
+                "text": "John 3:16"
+            },
+            {
+                "label": "Verse",
+                "text": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
+            }
+        ]
+    },
+    {
+        "label": "Point",
+        "text": [
+            {
+                "label": "Point",
+                "text": "The importance of perseverance in achieving success."
+            }
+        ]
+    },
+    {
+        "label": "Quote",
+        "text": [
+            {
+                "label": "Subpoint",
+                "text": "A.W. Tozer"
+            },
+            {
+                "label": "Description",
+                "text": "What comes into our minds when we think about God is the most important thing about us."
+            }
+        ]
+    }
+]
