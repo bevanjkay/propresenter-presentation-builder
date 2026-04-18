@@ -7,7 +7,6 @@ export type TextInput = {
 
 export type SlideInput = {
   label?: string;
-  theme?: string;
   text: TextInput[];
 };
 
@@ -23,7 +22,6 @@ const textItemSchema = z.object({
 
 const slideSchema = z.object({
   label: z.string().optional(),
-  theme: z.string().optional(),
   text: z.unknown()
 });
 
@@ -78,7 +76,6 @@ export function parsePresentationInput(value: unknown): ParsedInput {
     if (Array.isArray(slide.text)) {
       return {
         label: slide.label,
-        theme: slide.theme,
         text: slide.text as TextInput[]
       };
     }
@@ -86,7 +83,6 @@ export function parsePresentationInput(value: unknown): ParsedInput {
     warnings.push(`slides[${index}].text was a single object and was normalized to a one-item array`);
     return {
       label: slide.label,
-      theme: slide.theme,
       text: [slide.text as TextInput]
     };
   });

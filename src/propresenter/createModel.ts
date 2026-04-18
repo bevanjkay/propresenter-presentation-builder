@@ -20,7 +20,7 @@ export function createPresentationModel(
     title,
     slides: slides.map((slide, slideIndex) => {
       const layouts = buildLayouts(slide.text.length);
-      const label = slide.label === undefined ? slide.theme?.trim() ?? "" : slide.label.trim();
+      const label = slide.label?.trim() ?? "";
       if (label === "") {
         warnings.push(`slides[${slideIndex}].label is empty; generated slide label will be blank`);
       }

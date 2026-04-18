@@ -7,7 +7,6 @@ import { parsePresentationInput } from "./inputSchema.js";
 import { buildPresentation } from "./propresenter/buildPresentation.js";
 import { createPresentationModel } from "./propresenter/createModel.js";
 import { formatInspection, inspectTemplate } from "./propresenter/inspectTemplate.js";
-import { buildPresentationWithTemplate } from "./propresenter/templateRenderer.js";
 
 const program = new Command();
 
@@ -20,26 +19,22 @@ program
   .command("generate")
   .requiredOption("--input <path>", "Input JSON path")
   .requiredOption("--output <path>", "Output .pro path")
-  .option("--template <path>", "Template .pro path used for input slide theme matching")
   .option("--title <title>", "Presentation title", "Generated Presentation")
   .option("--debug-decode", "Write protoc --decode_raw output next to the generated file")
-  .action((options: { input: string; output: string; template?: string; title: string; debugDecode?: boolean }) => {
+  .action((options: { input: string; output: string; title: string; debugDecode?: boolean }) => {
     try {
       const inputPath = resolve(options.input);
       const outputPath = resolve(options.output);
       const rawInput = JSON.parse(readFileSync(inputPath, "utf8"));
       const parsed = parsePresentationInput(rawInput);
       const { model, warnings } = createPresentationModel(parsed.slides, options.title);
-      const templateResult = options.template
-        ? buildPresentationWithTemplate(model, parsed.slides, readFileSync(resolve(options.template)))
-        : null;
-      const bytes = templateResult?.bytes ?? buildPresentation(model);
+      const bytes = buildPresentation(model);
       const decodeOutput = smokeTestWithProtoc(bytes);
 
       mkdirSync(dirname(outputPath), { recursive: true });
       writeFileSync(outputPath, bytes);
 
-      const warningList = [...parsed.warnings, ...warnings, ...(templateResult?.warnings ?? [])];
+      const warningList = [...parsed.warnings, ...warnings];
       for (const warning of warningList) {
         console.warn(`Warning: ${warning}`);
       }
@@ -53,9 +48,6 @@ program
       const textObjectCount = model.slides.reduce((sum, slide) => sum + slide.text.length, 0);
       console.log(`Input slides: ${model.slides.length}`);
       console.log(`Generated text objects: ${textObjectCount}`);
-      if (templateResult) {
-        console.log(`Template themed slides: ${templateResult.themedSlideCount}`);
-      }
       console.log(`Output: ${outputPath}`);
     } catch (error) {
       console.error(error instanceof Error ? error.message : String(error));

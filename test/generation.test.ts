@@ -5,7 +5,6 @@ import { parsePresentationInput } from "../src/inputSchema.js";
 import { decodeMessage } from "../src/protobuf/wire.js";
 import { buildPresentation } from "../src/propresenter/buildPresentation.js";
 import { createPresentationModel } from "../src/propresenter/createModel.js";
-import { buildPresentationWithTemplate } from "../src/propresenter/templateRenderer.js";
 
 describe("presentation generation", () => {
   it("generates decodable .pro bytes from input.json", () => {
@@ -37,69 +36,5 @@ describe("presentation generation", () => {
 
     expect(output).toContain("The Great Gatsby");
     expect(output).toContain("A.W. Tozer");
-  });
-});
-
-describe("template theme generation", () => {
-  it("uses a template cue when slide theme matches the template slide label", () => {
-    const slides = [
-      { label: "Generated Title", theme: "Title", text: [{ label: "Title", text: "Themed title text" }] }
-    ];
-    const { model } = createPresentationModel(slides, "Themed Presentation");
-    const result = buildPresentationWithTemplate(model, slides, readFileSync("Template.pro"));
-    const decoded = decodeMessage(result.bytes);
-    const output = Buffer.from(result.bytes).toString("utf8");
-
-    expect(result.themedSlideCount).toBe(1);
-    expect(decoded.filter((field) => field.field === 13)).toHaveLength(1);
-    expect(output).toContain("Generated Title");
-    expect(output).toContain("Themed title text");
-    expect(output).not.toContain("Title Text");
-    expect(execFileSync("protoc", ["--decode_raw"], { input: Buffer.from(result.bytes), encoding: "utf8" })).toContain("Themed Presentation");
-  });
-
-  it("uses theme as the generated slide label when label is omitted", () => {
-    const slides = [
-      { theme: "Title", text: [{ label: "Title", text: "Themed title text" }] }
-    ];
-    const { model } = createPresentationModel(slides, "Themed Presentation");
-    const result = buildPresentationWithTemplate(model, slides, readFileSync("Template.pro"));
-    const output = Buffer.from(result.bytes).toString("utf8");
-
-    expect(output).toContain("Title");
-    expect(model.slides[0].label).toBe("Title");
-  });
-
-  it("fails when theme is omitted in template mode", () => {
-    const slides = [
-      { label: "Generated Title", text: [{ label: "Text", text: "Themed title text" }] }
-    ];
-    const { model } = createPresentationModel(slides, "Themed Presentation");
-
-    expect(() => buildPresentationWithTemplate(model, slides, readFileSync("Template.pro"))).toThrow(
-      "theme is required"
-    );
-  });
-
-  it("fails when a requested theme does not exist in the template", () => {
-    const slides = [
-      { label: "Generated Title", theme: "Missing", text: [{ label: "Title", text: "Themed title text" }] }
-    ];
-    const { model } = createPresentationModel(slides, "Themed Presentation");
-
-    expect(() => buildPresentationWithTemplate(model, slides, readFileSync("Template.pro"))).toThrow(
-      'theme "Missing" did not match'
-    );
-  });
-
-  it("fails when the themed template slide is missing a requested text object", () => {
-    const slides = [
-      { label: "Generated Title", theme: "Title", text: [{ label: "MissingText", text: "Themed title text" }] }
-    ];
-    const { model } = createPresentationModel(slides, "Themed Presentation");
-
-    expect(() => buildPresentationWithTemplate(model, slides, readFileSync("Template.pro"))).toThrow(
-      'missing text object "MissingText"'
-    );
   });
 });
