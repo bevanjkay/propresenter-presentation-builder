@@ -20,7 +20,8 @@ export function createPresentationModel(
     title,
     slides: slides.map((slide, slideIndex) => {
       const layouts = buildLayouts(slide.text.length);
-      if (!slide.label || slide.label.trim() === "") {
+      const label = slide.label === undefined ? slide.theme?.trim() ?? "" : slide.label.trim();
+      if (label === "") {
         warnings.push(`slides[${slideIndex}].label is empty; generated slide label will be blank`);
       }
       if (slide.text.length > 3) {
@@ -30,7 +31,7 @@ export function createPresentationModel(
       return {
         id: createId(),
         cueId: createId(),
-        label: slide.label?.trim() ?? "",
+        label,
         text: slide.text.map((item, textIndex) => {
           const layout = layouts[textIndex];
           return {

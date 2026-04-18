@@ -82,12 +82,13 @@ The input file is an array of slides.
 Rules:
 
 - `label` becomes the ProPresenter slide label.
-- `theme` is optional. When `--template` is used, it must match a slide label in the template presentation.
+- `theme` is required when `--template` is used. It must match a slide label in the template presentation.
 - `text[].label` becomes the ProPresenter text object name.
 - `text[].text` becomes the rendered text content.
 - `text` should normally be an array.
 - For MVP compatibility, a single `text` object is accepted and normalized to a one-item array with a warning.
-- Missing or blank slide labels are allowed and generate blank slide labels.
+- If `label` is omitted and `theme` is present, the generated slide label defaults to `theme`.
+- An explicit blank `label` is allowed and generates a blank slide label.
 
 ## Layout Behavior
 
@@ -97,7 +98,7 @@ Without `--template`, layouts are built in code from the number of text items on
 - Two text items: a smaller upper text box and a larger main body text box.
 - Three or more text items: stacked text boxes with deterministic spacing.
 
-With `--template`, any slide with a `theme` key uses the matching template slide layout. The match is made against the ProPresenter slide label in the template presentation. Text objects are matched by exact `text[].label`.
+With `--template`, every slide must have a `theme` key. The match is made against the ProPresenter slide label in the template presentation. Text objects are matched by exact `text[].label`.
 
 For example, this input slide:
 
@@ -119,8 +120,6 @@ For example, this input slide:
 ```
 
 requires a slide in the template presentation labelled `Quote`, with text objects named exactly `Subpoint` and `Description`.
-
-If `theme` is omitted, the generator uses the built-in layout for that slide, even when `--template` is provided.
 
 ## Inspect The Template
 

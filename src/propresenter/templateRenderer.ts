@@ -48,7 +48,7 @@ export function buildPresentationWithTemplate(
   const cueFields = model.slides.map((slide, index) => {
     const theme = inputSlides[index]?.theme?.trim();
     if (!theme) {
-      return buildCue(slide);
+      throw new Error(`slides[${index}].theme is required when --template is used`);
     }
 
     const templateCue = templateCues.get(theme);
