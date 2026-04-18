@@ -170,6 +170,24 @@ Build compiled JavaScript:
 pnpm build
 ```
 
+The build produces a bundled runtime at:
+
+```bash
+dist/cli.js
+```
+
+Run the bundled CLI with Node:
+
+```bash
+node dist/cli.js generate --input input.json --output output.pro --template Template.pro
+```
+
+or:
+
+```bash
+node dist/cli.js inspect-template --template Template.pro
+```
+
 ## Current MVP Limitations
 
 - Template presentations are optional. When used, themed slides preserve the matched template slide structure and replace text by object label.
