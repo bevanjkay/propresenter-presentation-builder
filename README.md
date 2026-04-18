@@ -97,7 +97,7 @@ Without `--template`, layouts are built in code from the number of text items on
 - Two text items: a smaller upper text box and a larger main body text box.
 - Three or more text items: stacked text boxes with deterministic spacing.
 
-With `--template`, any slide with a `theme` key uses the matching template slide layout. The match is made against the ProPresenter slide label in the template presentation. Text objects are matched by `text[].label`.
+With `--template`, any slide with a `theme` key uses the matching template slide layout. The match is made against the ProPresenter slide label in the template presentation. Text objects are matched by exact `text[].label`.
 
 For example, this input slide:
 
@@ -118,7 +118,7 @@ For example, this input slide:
 }
 ```
 
-requires a slide in the template presentation labelled `Quote`, with text objects named `Subpoint` and `Description`.
+requires a slide in the template presentation labelled `Quote`, with text objects named exactly `Subpoint` and `Description`.
 
 If `theme` is omitted, the generator uses the built-in layout for that slide, even when `--template` is provided.
 
@@ -178,4 +178,4 @@ pnpm build
 - If ProPresenter rejects a generated file, the expected fix is to add missing protobuf fields to the builders.
 - Built-in fallback slides use a hardcoded Helvetica Neue white centered style.
 - Built-in layouts are deterministic defaults, not editable from JSON.
-- A themed slide fails generation if the requested template slide label or text object label is missing.
+- A themed slide fails generation if the requested template slide label or exact text object label is missing.

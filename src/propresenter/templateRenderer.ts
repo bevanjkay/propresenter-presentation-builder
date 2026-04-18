@@ -24,7 +24,6 @@ export type TemplateRenderResult = {
 
 type TextElementRef = {
   label: string;
-  labelNode: WireNode;
   rtfNode: WireNode;
 };
 
@@ -54,12 +53,15 @@ export function buildPresentationWithTemplate(
 
     const templateCue = templateCues.get(theme);
     if (!templateCue) {
-      throw new Error(`slides[${index}].theme "${theme}" did not match any template slide label`);
+      const available = [...templateCues.keys()].join(", ") || "none";
+      throw new Error(
+        `slides[${index}].theme "${theme}" did not match any template slide label. Available template slide labels: ${available}`
+      );
     }
 
     themedSlideCount += 1;
     warnings.push(`slides[${index}] used template theme "${theme}"`);
-    return renderTemplateCue(templateCue, slide, index, warnings);
+    return renderTemplateCue(templateCue, slide, index);
   });
 
   return {
@@ -93,7 +95,7 @@ function discoverTemplateCues(root: WireNode[]): Map<string, TemplateCue> {
   return cues;
 }
 
-function renderTemplateCue(templateCue: TemplateCue, slide: SlideModel, slideIndex: number, warnings: string[]): WireValue {
+function renderTemplateCue(templateCue: TemplateCue, slide: SlideModel, slideIndex: number): WireValue {
   const cueNode = cloneNode(templateCue.node);
   if (cueNode.type !== "length" || !cueNode.children) {
     throw new Error(`Template cue "${templateCue.label}" could not be decoded for editing`);
@@ -106,25 +108,16 @@ function renderTemplateCue(templateCue: TemplateCue, slide: SlideModel, slideInd
 
   const textElements = findTextElements(cueNode.children);
   const textElementsByLabel = new Map(textElements.map((element) => [element.label, element]));
-  const usedTextElements = new Set<TextElementRef>();
 
   for (const text of slide.text) {
-    const exactMatch = textElementsByLabel.get(text.label);
-    const textElement = exactMatch ?? textElements.find((element) => !usedTextElements.has(element));
+    const textElement = textElementsByLabel.get(text.label);
     if (!textElement) {
       const available = textElements.map((element) => element.label).join(", ") || "none";
       throw new Error(
-        `slides[${slideIndex}] theme "${templateCue.label}" could not map text object "${text.label}". Available text objects: ${available}`
+        `slides[${slideIndex}] theme "${templateCue.label}" is missing text object "${text.label}". Available text objects: ${available}`
       );
     }
 
-    usedTextElements.add(textElement);
-    if (!exactMatch) {
-      warnings.push(
-        `slides[${slideIndex}] theme "${templateCue.label}" mapped text object "${text.label}" by position from template object "${textElement.label}"`
-      );
-      setString(textElement.labelNode, text.label);
-    }
     setString(textElement.rtfNode, text.rtf);
   }
 
@@ -205,7 +198,7 @@ function findTextElements(nodes: WireNode[]): TextElementRef[] {
       return;
     }
 
-    elements.push({ label, labelNode, rtfNode });
+    elements.push({ label, rtfNode });
   });
 
   return elements;

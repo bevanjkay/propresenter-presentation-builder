@@ -43,7 +43,7 @@ describe("presentation generation", () => {
 describe("template theme generation", () => {
   it("uses a template cue when slide theme matches the template slide label", () => {
     const slides = [
-      { label: "Generated Title", theme: "Title", text: [{ label: "Title", text: "Themed title text" }] }
+      { label: "Generated Title", theme: "Title", text: [{ label: "Text", text: "Themed title text" }] }
     ];
     const { model } = createPresentationModel(slides, "Themed Presentation");
     const result = buildPresentationWithTemplate(model, slides, readFileSync("Template.pro"));
@@ -71,19 +71,12 @@ describe("template theme generation", () => {
 
   it("fails when the themed template slide is missing a requested text object", () => {
     const slides = [
-      {
-        label: "Generated Title",
-        theme: "Title",
-        text: [
-          { label: "FirstText", text: "Themed title text" },
-          { label: "SecondText", text: "Second text" }
-        ]
-      }
+      { label: "Generated Title", theme: "Title", text: [{ label: "MissingText", text: "Themed title text" }] }
     ];
     const { model } = createPresentationModel(slides, "Themed Presentation");
 
     expect(() => buildPresentationWithTemplate(model, slides, readFileSync("Template.pro"))).toThrow(
-      'could not map text object "SecondText"'
+      'missing text object "MissingText"'
     );
   });
 });
