@@ -1,8 +1,8 @@
 # ProPresenter Presentation Builder
 
-Generate a fresh ProPresenter `.pro` file from structured JSON.
+Generate a ProPresenter `.pro` file from structured JSON.
 
-The current MVP builds the presentation from TypeScript protobuf builders. `Template.pro` is used only as a reverse-engineering fixture for understanding the ProPresenter file format and for the inspection command. It is not required when generating a presentation.
+By default, the MVP builds a fresh presentation from TypeScript protobuf builders and built-in layouts. You can also pass a template presentation and choose template slide layouts per input slide with the `theme` key.
 
 ## Requirements
 
@@ -36,6 +36,12 @@ Write a decoded protobuf debug file next to the output:
 pnpm generate -- --input input.json --output output.pro --debug-decode
 ```
 
+Use a template presentation for themed slide layouts:
+
+```bash
+pnpm generate -- --input input.json --output output.pro --template Template.pro
+```
+
 This creates:
 
 - `output.pro`
@@ -58,6 +64,7 @@ The input file is an array of slides.
   },
   {
     "label": "John 3:16",
+    "theme": "Bible Verse",
     "text": [
       {
         "label": "Reference",
@@ -75,6 +82,7 @@ The input file is an array of slides.
 Rules:
 
 - `label` becomes the ProPresenter slide label.
+- `theme` is optional. When `--template` is used, it must match a slide label in the template presentation.
 - `text[].label` becomes the ProPresenter text object name.
 - `text[].text` becomes the rendered text content.
 - `text` should normally be an array.
@@ -83,13 +91,36 @@ Rules:
 
 ## Layout Behavior
 
-Layouts are built in code from the number of text items on each slide:
+Without `--template`, layouts are built in code from the number of text items on each slide:
 
 - One text item: one large centered text box.
 - Two text items: a smaller upper text box and a larger main body text box.
 - Three or more text items: stacked text boxes with deterministic spacing.
 
-Theme switching and custom per-slide layout configuration are not implemented yet.
+With `--template`, any slide with a `theme` key uses the matching template slide layout. The match is made against the ProPresenter slide label in the template presentation. Text objects are matched by `text[].label`.
+
+For example, this input slide:
+
+```json
+{
+  "label": "Opening Quote",
+  "theme": "Quote",
+  "text": [
+    {
+      "label": "Subpoint",
+      "text": "A.W. Tozer"
+    },
+    {
+      "label": "Description",
+      "text": "What comes into our minds when we think about God is the most important thing about us."
+    }
+  ]
+}
+```
+
+requires a slide in the template presentation labelled `Quote`, with text objects named `Subpoint` and `Description`.
+
+If `theme` is omitted, the generator uses the built-in layout for that slide, even when `--template` is provided.
 
 ## Inspect The Template
 
@@ -142,9 +173,9 @@ pnpm build
 
 ## Current MVP Limitations
 
-- The generator does not use `Template.pro` as a runtime base.
+- Template presentations are optional. When used, themed slides preserve the matched template slide structure and replace text by object label.
 - The generated protobuf structure is based on currently discovered field mappings.
 - If ProPresenter rejects a generated file, the expected fix is to add missing protobuf fields to the builders.
-- Text styling is currently a hardcoded Helvetica Neue white centered style.
-- Layouts are deterministic defaults, not editable from JSON.
-- Theme switching is planned for later.
+- Built-in fallback slides use a hardcoded Helvetica Neue white centered style.
+- Built-in layouts are deterministic defaults, not editable from JSON.
+- A themed slide fails generation if the requested template slide label or text object label is missing.

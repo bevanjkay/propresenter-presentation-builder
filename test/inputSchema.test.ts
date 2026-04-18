@@ -11,6 +11,14 @@ describe("parsePresentationInput", () => {
     expect(result.warnings).toEqual([]);
   });
 
+  it("preserves optional theme keys", () => {
+    const result = parsePresentationInput([
+      { label: "Slide", theme: "Title", text: [{ label: "Title", text: "Hello" }] }
+    ]);
+
+    expect(result.slides[0].theme).toBe("Title");
+  });
+
   it("normalizes a single text object", () => {
     const result = parsePresentationInput([
       { label: "Slide", text: { label: "Title", text: "Hello" } }
