@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fromBinary, toJsonString } from "@bufbuild/protobuf";
 import { Command } from "commander";
+import packageJson from "../package.json" with { type: "json" };
 import { PresentationSchema } from "./generated/presentation_pb.js";
 import { parsePresentationInput } from "./inputSchema.js";
 import { buildPresentation } from "./propresenter/buildPresentation.js";
@@ -14,7 +15,7 @@ const program = new Command();
 program
   .name("pro-presenter-builder")
   .description("Generate ProPresenter .pro files from structured JSON")
-  .version("0.1.0");
+  .version(packageJson.version);
 
 program
   .command("generate")
