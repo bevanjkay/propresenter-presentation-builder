@@ -5,3 +5,6 @@ coverage/
 output.pro
 *.tmp.pro
 *.decode.txt
+*.decode.json
+.DS_Store
+rachel*
