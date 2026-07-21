@@ -1,44 +1,181 @@
 [
-    {
-        "label": "Title",
-        "text": {
-            "label": "Title",
-            "text": "The Great Gatsby"
-        }
-    },
-    {
-        "label": "John 3:16",
-        "text": [
-            {
-                "label": "Reference",
-                "text": "John 3:16"
-            },
-            {
-                "label": "Verse",
-                "text": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
-            }
-        ]
-    },
-    {
-        "label": "Point",
-        "text": [
-            {
-                "label": "Point",
-                "text": "The importance of perseverance in achieving success."
-            }
-        ]
-    },
-    {
-        "label": "Quote",
-        "text": [
-            {
-                "label": "Subpoint",
-                "text": "A.W. Tozer"
-            },
-            {
-                "label": "Description",
-                "text": "What comes into our minds when we think about God is the most important thing about us."
-            }
-        ]
-    }
+  {
+    "theme": "Title",
+    "text": [
+      { "label": "Title", "text": "GOD IS… UNCHANGING" }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "We live in a world that is constantly changing." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "GOD IS UNCHANGING — HE DOES NOT CHANGE" }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "Unchanging means remaining the same — God is immutable." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "Because God does not change, He is faithful, trustworthy, and consistent." }
+    ]
+  },
+  {
+    "theme": "Subpoint",
+    "text": [
+      { "label": "Subpoint", "text": "A.W. Tozer" },
+      { "label": "Description", "text": "In God, no change is possible; in man, change is impossible to escape." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "Malachi 3:6 (NKJV)" },
+      { "label": "Verse", "text": "For I am the Lord, I do not change; therefore you are not consumed." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "God is and will always be faithful, good, and true." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "Hebrews 13:8 (NLT)" },
+      { "label": "Verse", "text": "Jesus Christ is the same yesterday, today and forever." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "Revelation 1:8 (NLT)" },
+      { "label": "Verse", "text": "I am the Alpha and the Omega—the beginning and the end… the Almighty One." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "Keep turning to wonder — God wants to reveal Himself to you." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "Saul disobeyed God and chose his own way." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "1 Samuel 15:11 (NIV)" },
+      { "label": "Verse", "text": "I regret that I have made Saul king, because he has turned away from me." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "1 Samuel 15:29 (NIV)" },
+      { "label": "Verse", "text": "He does not lie or change his mind; for he is not a human being." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "God didn’t change — Saul changed." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "God does not change in His character, His purposes, or who He is." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "Numbers 23:19 (ESV)" },
+      { "label": "Verse", "text": "God is not man, that he should lie… will he not fulfill it?" }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "Because God doesn’t change, we can trust that He is always faithful." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "2 Timothy 2:13 (NLT)" },
+      { "label": "Verse", "text": "If we are unfaithful, he remains faithful." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "Because God doesn’t change, we can trust that He is always good." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "Psalm 119:68 (NIV)" },
+      { "label": "Verse", "text": "You are good, and what you do is good." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "Psalm 34:8 (NKJV)" },
+      { "label": "Verse", "text": "Taste and see that the Lord is good; blessed is the one who trusts in Him." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "We can experience God’s goodness daily." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "Because God doesn’t change, He is power and authority — and this never changes." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "The power of the Holy Spirit is here to set you free." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "You can change — and become more like Him." }
+    ]
+  },
+  {
+    "theme": "Point",
+    "text": [
+      { "label": "Point", "text": "The best decision you can make is to invite Jesus into your life." }
+    ]
+  },
+  {
+    "theme": "Verse",
+    "text": [
+      { "label": "Reference", "text": "Romans 10:9 (NIV)" },
+      { "label": "Verse", "text": "If you declare with your mouth Jesus is Lord… you will be saved." }
+    ]
+  }
 ]

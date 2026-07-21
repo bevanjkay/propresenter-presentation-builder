@@ -8,7 +8,6 @@ The MVP builds a fresh presentation from TypeScript protobuf builders and built-
 
 - Node.js 20 or newer
 - pnpm
-- `protoc` is recommended for decode validation and debug output
 
 Install dependencies:
 
@@ -30,7 +29,7 @@ Set a custom presentation title:
 pnpm generate -- --input input.json --output output.pro --title "Sunday Service"
 ```
 
-Write a decoded protobuf debug file next to the output:
+Write a decoded JSON debug file next to the output:
 
 ```bash
 pnpm generate -- --input input.json --output output.pro --debug-decode
@@ -39,7 +38,7 @@ pnpm generate -- --input input.json --output output.pro --debug-decode
 This creates:
 
 - `output.pro`
-- `output.pro.decode.txt` when `--debug-decode` is used
+- `output.pro.decode.json` when `--debug-decode` is used
 
 Generated `.pro` and decode files are ignored by git.
 
@@ -91,32 +90,21 @@ Layouts are built in code from the number of text items on each slide:
 
 ## Inspect The Template
 
-Use the inspection command to view the known protobuf structure from `Template.pro`:
+Use the inspection command to view the decoded structure of `Template.pro`:
 
 ```bash
 pnpm inspect-template -- --template Template.pro
 ```
 
-The output includes:
-
-- top-level fields
-- presentation title
-- cue count
-- cue labels
-- text object labels
-- discovered RTF field paths
-- geometry-like field paths
-- candidate field constants used by the builders
+The output includes the presentation title, UUID, source ProPresenter version,
+and each cue's text objects with font, size, and bounds.
 
 ## Validate Output Manually
 
-If `protoc` is installed, decode the generated file:
-
-```bash
-protoc --decode_raw < output.pro
-```
-
-The CLI also performs this smoke test automatically during generation when `protoc` is available.
+The CLI decodes every generated file against the real `rv.data.Presentation`
+schema before writing it, so invalid protobuf output fails generation. Use
+`--debug-decode` to write the decoded presentation as pretty-printed JSON next
+to the output file.
 
 ## Development
 
@@ -156,9 +144,23 @@ or:
 node dist/cli.js inspect-template --template Template.pro
 ```
 
+## Proto Schemas
+
+The `proto/rv/` directory vendors reverse-engineered ProPresenter 7 `.proto`
+definitions from [greyshirtguy/ProPresenter7-Proto](https://github.com/greyshirtguy/ProPresenter7-Proto)
+(see `proto/README.md` for provenance and update instructions).
+
+TypeScript types are generated into `src/generated/` with:
+
+```bash
+pnpm proto:gen
+```
+
+The test suite uses the generated `rv.data.Presentation` schema to verify that
+`Template.pro` round-trips byte-identically and that generator output decodes
+against the real schema — a much stronger check than `protoc --decode_raw`.
+
 ## Current MVP Limitations
 
-- The generated protobuf structure is based on currently discovered field mappings.
-- If ProPresenter rejects a generated file, the expected fix is to add missing protobuf fields to the builders.
 - Slides use a hardcoded Helvetica Neue white centered style.
 - Built-in layouts are deterministic defaults, not editable from JSON.

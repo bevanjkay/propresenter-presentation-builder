@@ -9,13 +9,31 @@ export function buildRtf(text: string, style: TextStyle): string {
     "\\cocoatextscaling0\\cocoaplatform0{\\fonttbl\\f0\\fnil\\fcharset0 ",
     style.fontFamily,
     ";}",
-    "{\\colortbl;\\red255\\green255\\blue255;\\red255\\green255\\blue255;}",
-    "{\\*\\expandedcolortbl;;\\csgray\\c100000;}",
+    colorTable(style.color),
+    expandedColorTable(style.color),
     "\\deftab1680",
     `\\pard\\pardeftab1680\\pardirnatural\\${alignment}\\partightenfactor0`,
     "",
     `\\f0\\fs${fontSizeHalfPoints} \\cf2 \\CocoaLigature0 ${escapeRtf(text)}}`
   ].join("\n");
+}
+
+// Entry 1 is the fixed default (white); entry 2 is the text color referenced by \cf2.
+function colorTable(color: TextStyle["color"]): string {
+  const red = Math.round(color.r * 255);
+  const green = Math.round(color.g * 255);
+  const blue = Math.round(color.b * 255);
+  return `{\\colortbl;\\red255\\green255\\blue255;\\red${red}\\green${green}\\blue${blue};}`;
+}
+
+// Cocoa writes grayscale colors as \csgray and everything else as \cssrgb, scaled to 100000.
+function expandedColorTable(color: TextStyle["color"]): string {
+  const scale = (value: number) => Math.round(value * 100000);
+  const entry =
+    color.r === color.g && color.g === color.b
+      ? `\\csgray\\c${scale(color.r)}`
+      : `\\cssrgb\\c${scale(color.r)}\\c${scale(color.g)}\\c${scale(color.b)}`;
+  return `{\\*\\expandedcolortbl;;${entry};}`;
 }
 
 export function escapeRtf(text: string): string {

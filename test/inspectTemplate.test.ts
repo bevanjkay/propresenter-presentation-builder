@@ -10,6 +10,7 @@ describe("inspectTemplate", () => {
     expect(inspection.cueCount).toBeGreaterThan(0);
     expect(inspection.cueLabels).toEqual(expect.arrayContaining(["Title", "Point"]));
     expect(inspection.textObjectLabels.length).toBeGreaterThan(0);
-    expect(inspection.rtfPaths.length).toBeGreaterThan(0);
+    expect(inspection.cues.every((cue) => cue.elements.every((element) => element.hasRtf))).toBe(true);
+    expect(inspection.applicationVersion).toBe("21.3.0");
   });
 });
